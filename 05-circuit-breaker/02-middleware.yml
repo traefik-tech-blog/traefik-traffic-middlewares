@@ -1,0 +1,10 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: test-circuit-breaker
+spec:
+  circuitBreaker:
+    expression: LatencyAtQuantileMS(50.0) > 500 || ResponseCodeRatio(400, 600, 0, 600) > 0.5 || NetworkErrorRatio() > 0.50
+    checkPeriod: 10s
+    fallbackDuration: 30s
+    recoveryDuration: 1m

@@ -1,0 +1,19 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: myingressroute-circuit-breaker
+  namespace: default
+
+spec:
+  entryPoints:
+    - web
+
+  routes:
+    - match: PathPrefix(`/circuit-breaker`)
+      kind: Rule
+      services:
+        - name: backend
+          port: 80
+      middlewares:
+        - name: test-circuit-breaker
+          namespace: default

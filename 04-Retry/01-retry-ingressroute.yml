@@ -1,0 +1,19 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: myingressroute-retry
+  namespace: default
+
+spec:
+  entryPoints:
+    - web
+
+  routes:
+    - match: PathPrefix(`/retry`)
+      kind: Rule
+      services:
+        - name: whoami
+          port: 81
+      middlewares:
+        - name: test-retry
+          namespace: default

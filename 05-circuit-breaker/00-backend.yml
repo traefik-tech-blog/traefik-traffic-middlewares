@@ -1,0 +1,45 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: backend
+  namespace: default
+  labels:
+    app: traefiklabs
+    name: backend
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: traefiklabs
+      task: backend
+  template:
+    metadata:
+      labels:
+        app: traefiklabs
+        task: backend
+    spec:
+      containers:
+        - name: backend
+          image: circuit-breaker-test:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: default
+
+spec:
+  ports:
+    - name: http
+      port: 80
+    - name: fake
+      port: 81
+  selector:
+    app: traefiklabs
+    task: backend
+

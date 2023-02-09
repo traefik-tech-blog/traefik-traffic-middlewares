@@ -1,0 +1,19 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: myingressroute-ratelimit
+  namespace: default
+
+spec:
+  entryPoints:
+    - web
+
+  routes:
+    - match: PathPrefix(`/ratelimit`)
+      kind: Rule
+      services:
+        - name: whoami
+          port: 80
+      middlewares:
+        - name: test-ratelimit
+          namespace: default

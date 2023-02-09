@@ -1,0 +1,19 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: myingressroute-inflightreq
+  namespace: default
+
+spec:
+  entryPoints:
+    - web
+
+  routes:
+    - match: PathPrefix(`/inflightreq`)
+      kind: Rule
+      services:
+        - name: whoami
+          port: 80
+      middlewares:
+        - name: test-inflightreq
+          namespace: default

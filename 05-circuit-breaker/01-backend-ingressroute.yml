@@ -1,0 +1,16 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: myingressroute-default
+  namespace: default
+
+spec:
+  entryPoints:
+    - web
+
+  routes:
+    - match: PathPrefix(`/backend`)
+      kind: Rule
+      services:
+        - name: backend
+          port: 80
